@@ -7,7 +7,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <string.h>
 
   
 int  main(int argc, char *argv[])
@@ -18,7 +17,7 @@ int  main(int argc, char *argv[])
     printf("bad arguments\n");
     return -1;
   }
-  int fd = open(argv[1],O_WRONLY|O_CREAT);
+  int fd = open(argv[1],O_WRONLY);
   if(fd < 0)
   {
     printf("open file error\n");
