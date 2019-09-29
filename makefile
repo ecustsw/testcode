@@ -9,16 +9,20 @@ LINKFLAG=-Xlinker
 
 CC=g++
 
+ALLEXE=test systest pipe_read pipe_write
+
 CPPDEFS = -Wall  -g -D_MT  -O2
 
 SRCFILES=test main test2 
 
 SRCFILESSYSCALL=syscall_test
 
-all:testapp systest
-	@echo "test systest built successful!"
+all:$(ALLEXE)
+	@echo "$(ALLEXE) built successful!"
 
-testapp: $(SRCFILES:=.o)
+
+
+test: $(SRCFILES:=.o)
 	g++ $(LINKFLAG) $(LIBPATH) -O2 -o ./test $(SRCFILES:=.o) $(LIBS)
 
 systest: $(SRCFILESSYSCALL:=.o)
@@ -30,12 +34,13 @@ pipe_read:pipe_read.o
 pipe_write:pipe_write.o
 	g++ $(LINKFLAG) $(LIBPATH) -o ./pipe_write pipe_write.o $(LIBS)
 
-.SUFFIXES:.cpp .o
 
+
+.SUFFIXES:.cpp .o
 
 .cpp.o:
 	g++ -c  $(CPPDEFS) $(INCLDIR) $< -o $@
 
-clear:
-	rm *.o test systest
+clean:
+	rm -f *.o $(ALLEXE)
 
