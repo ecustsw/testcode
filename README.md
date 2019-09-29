@@ -1,3 +1,3 @@
 # codetest
 
-some test code about c/c++
+some test code about linux c/c++
