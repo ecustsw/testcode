@@ -9,7 +9,7 @@ LINKFLAG=-Xlinker
 
 CC=g++
 
-ALLEXE=test systest pipe_read pipe_write
+ALLEXE=test systest pipe_read pipe_write server client
 
 CPPDEFS = -Wall  -g -D_MT  -O2
 
@@ -33,6 +33,12 @@ pipe_read:pipe_read.o
 
 pipe_write:pipe_write.o
 	g++ $(LINKFLAG) $(LIBPATH) -o ./pipe_write pipe_write.o $(LIBS)
+
+server:server.o
+	g++ $(LINKFLAG) $(LIBPATH) -o ./server server.o $(LIBS)
+
+client:client.o
+	g++ $(LINKFLAG) $(LIBPATH) -o ./client client.o $(LIBS)
 
 
 
