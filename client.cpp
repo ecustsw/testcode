@@ -2,9 +2,9 @@
 
 int main(int argc,char ** argv)
 {
-    if(argc < 3)
+    if(argc < 4)
     {
-        printf("please set server's port:argv[1] and ip:argv[2]\n");
+        printf("please set server's port:argv[1] and ip:argv[2] msg:argv[3]\n");
         return -1;
     }
     int cfd = socket(AF_INET,SOCK_STREAM,0);
@@ -27,9 +27,8 @@ int main(int argc,char ** argv)
     saddr.sin_port = htons(atoi(argv[1]));
     saddr.sin_addr.s_addr = inet_addr(argv[2]);
 
-    char buf[32] = {0};
-    char * msg = "hello";
-    memcpy(buf,msg,strlen(msg));
+    char* buf = new char[strlen(argv[3]) + 1];
+    memcpy(buf,argv[3],strlen(argv[3]));
 
     if(connect(cfd,(struct sockaddr*)&saddr,sizeof(saddr)) < 0)
     {
@@ -41,6 +40,7 @@ int main(int argc,char ** argv)
     printf("set msg\t%s\t%d\n",buf,sizeWrite);
 
     close(cfd);
+    delete[] buf;
 
     return 0;
 }

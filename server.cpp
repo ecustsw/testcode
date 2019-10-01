@@ -47,17 +47,19 @@ int main(int argc,char ** argv)
     }
 
     char * cip = inet_ntoa(caddr.sin_addr);
-    printf("client ip is%s\n",cip);
+    printf("client ip is\t%s\n",cip);
 
-    char* buf = new char[len + 1];
+    int bufSize = 12;
+    char* buf = new char[bufSize];
     int readed = 0;
     int n = 0;
-    while((n = read(cfd,buf + readed,len - readed)) > 0)
+    while((n = read(cfd,buf + readed,bufSize - readed)) > 0)
     {
         readed += n;
     }
 
-    printf("get msg\t%s\n",buf);
+    printf("get msg\t%s\tlen is %d\n",buf,readed);
+
     close(cfd);
     delete[] buf;
 
