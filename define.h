@@ -14,4 +14,12 @@
 #define error_handle(msg)\
             perror(msg);return -1;
 
+#define IPC_KEY 9999
+#define MSGBUF_LEN 1024
+
+
+#define MSG_HELLO 1
+#define MSG_BYE 2
+#define MSG_TALK 3
+
 #endif

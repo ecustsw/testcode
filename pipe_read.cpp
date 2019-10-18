@@ -47,7 +47,7 @@ int  main(int argc, char *argv[])
   int n = 0;
   while((n = read(fd,buf,sizeof(buf))) > 0)
   {
-    printf("get msg %s\tsize is%d-%d\n",buf,strlen(buf),n);
+    printf("get msg %s\tsize is%d-%d\n",buf,(int)strlen(buf),n);
     memset(buf,0,sizeof(buf));
   }
 

@@ -9,6 +9,7 @@ bool hasPermission(char* fileName,int flags)
 		return false;
 	}
 	printf("has permission%x\n",flags);
+	return true;
 }
 
 int main(int argc,char ** argv)

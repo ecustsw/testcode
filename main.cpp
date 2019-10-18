@@ -40,8 +40,6 @@ int main(int argc, char** argv)
 {
 	char date[16] = {0};
 	GetBeginDate(date);
-
-	int i = sizeof( int);
 		
 	if(!test11())
 	{

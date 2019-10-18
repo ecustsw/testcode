@@ -52,7 +52,7 @@ int  main(int argc, char *argv[])
     {
       break;
     }
-    printf("set msg %s\tsize is%d-%d\n",buf,strlen(buf),n);
+    printf("set msg %s\tsize is%d-%d\n",buf,(int)strlen(buf),n);
   }
   
   printf("writer closed\n");
