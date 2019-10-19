@@ -4,10 +4,15 @@
 
 #include "define.h"
 
+/*                 
+sequence； say hello -> wait for response hello -> talking ...>bye --> go back to say hello
+                                                                   --> exit
+           say exit
+*/
 
 int main(int argc,char** argv)
 {
-    int msgQueue = msgget(IPC_KEY,IPC_CREAT);
+    int msgQueue = msgget(IPC_KEY,0666|IPC_CREAT);
     if(msgQueue < 0)
     {
         error_handle("get msg error");
@@ -19,18 +24,28 @@ int main(int argc,char** argv)
 
     char buf[32] = {0};
     struct msgbuf* mBuf = (struct msgbuf*)malloc(sizeof(struct msgbuf) + MSGBUF_LEN);
-    while(scanf("%s",buf))
+    while(1)
     {
         if(curStatus == 0)
         {
-            printf("say hello to remote");
+            printf("say hello to remote or print exit to exit");
             scanf("%s",buf);
-            msgsnd(msgQueue, buf, strlen(buf), MSG_HELLO);
-            msgrcv(msgQueue,mBuf,MSGBUF_LEN,MSG_HELLO,MSG_EXCEPT);
-            if(mBuf->mtype == MSG_HELLO)
+            if(strcmp(buf,"exit") == 0)
             {
+                mBuf->mtype = MSG_BYE;
+                strcpy(mBuf->mtext,buf);
+                msgsnd(msgQueue, mBuf, strlen(mBuf->mtext), MSG_BYE);
+                curStatus = 0;
+                exit(0);
+            }
+            mBuf->mtype = MSG_HELLO;
+            strcpy(mBuf->mtext,buf);
+            msgsnd(msgQueue, mBuf, strlen(mBuf->mtext), 0);
+            msgrcv(msgQueue,mBuf,MSGBUF_LEN,MSG_HELLO,0);
+            if(mBuf->mtype == MSG_HELLO)
+            {               
+                printf("get hello msg %s\n",mBuf->mtext);
                 curStatus = MSG_HELLO;
-                write(1,mBuf->mtext,strlen(mBuf->mtext));
             }
             else
             {
@@ -39,22 +54,27 @@ int main(int argc,char** argv)
         }
         else 
         {
-            printf("say content to talk with remote\n");
+            printf("talking with remote,input content...\n");
             scanf("%s",buf);
             if(strcmp(buf,"bye") == 0)
             {
-                msgsnd(msgQueue, buf, strlen(buf), MSG_BYE);
+                mBuf->mtype = MSG_BYE;
+                strcpy(mBuf->mtext,buf);
+                msgsnd(msgQueue, mBuf, strlen(mBuf->mtext), MSG_BYE);
+                curStatus = 0;
             }
             else
             {
-                msgsnd(msgQueue, buf, strlen(buf), MSG_TALK);
-                write(1,mBuf->mtext,strlen(mBuf->mtext));
+                mBuf->mtype = MSG_TALK;
+                strcpy(mBuf->mtext,buf);
+                msgsnd(msgQueue, mBuf, strlen(mBuf->mtext), MSG_TALK);
             }
         }
         memset(mBuf->mtext,0,MSGBUF_LEN);
         memset(buf,0,sizeof(buf));
     }
 
+    error_handle("send msg error");
     free(mBuf);
     return 0;
 }
