@@ -22,4 +22,6 @@
 #define MSG_BYE 2
 #define MSG_TALK 3
 
+#define SHM_SIZE 1024
+
 #endif
