@@ -8,6 +8,16 @@
 
 #include "define.h"
 
+void showCurStatus(int semid,int semnum)
+{
+    int value = 0;
+    value = semctl(semid,semnum,GETVAL,value);
+    if(value < 0)
+    {
+        perror("semctl getall error");
+    }  
+    printf("cur semaphore value is %d\n", value);
+}
 
 int main(int argc,char ** argv)
 {
@@ -30,6 +40,7 @@ int main(int argc,char ** argv)
 
     while(1)
     {
+        showCurStatus(semid,0);//show first sem's value
         scanf("%s",buf);
         pBuf = buf;
         if(strncmp(pBuf,"get",3) == 0)
@@ -43,7 +54,7 @@ int main(int argc,char ** argv)
             {
                 pBuf++;
                 int num = atoi(pBuf);
-                if(num < 0)
+                if(num > 0)
                 {
                     printf("please input digit smaller than zero\n");
                 }
@@ -71,7 +82,7 @@ int main(int argc,char ** argv)
             {
                 pBuf++;
                 int num = atoi(pBuf);
-                if(num > 0)
+                if(num < 0)
                 {
                     printf("please input digit bigger than zero\n");
                 }
