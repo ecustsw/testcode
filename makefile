@@ -10,7 +10,7 @@ LINKFLAG=-Xlinker
 CC=g++
 
 ALLEXE=test systest pipe_read pipe_write server client fork msg_read msg_write semaphore\
-		 shm
+		 shm mytee
 
 CPPDEFS = -Wall  -g -D_MT  -O2
 
@@ -56,6 +56,8 @@ semaphore:semaphore.o
 shm:shm.o
 	g++ $(LINKFLAG) $(LIBPATH) -o ./shm shm.o $(LIBS)
 
+mytee:mytee.o
+	g++ $(LINKFLAG) $(LIBPATH) -o ./mytee mytee.o $(LIBS)
 
 .SUFFIXES:.cpp .o
 
