@@ -15,7 +15,7 @@
 #include <arpa/inet.h>
 
 #define error_handle(msg)\
-            perror(msg);return -1;
+            perror(msg);exit(-1);
 
 #define IPC_KEY 9999
 #define MSGBUF_LEN 1024
@@ -29,5 +29,7 @@
 
 #define CREATE_MODE 0666
 #define OPEN_FLAG O_CREAT|O_RDWR
+
+bool isPrintable(char c);
 
 #endif

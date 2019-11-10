@@ -46,5 +46,7 @@ int main(int argc,char* argv[])
         memset(buf,0,sizeof(buf));
     }
 
+    close(wFd);
+
     return 0;
 }

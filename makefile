@@ -10,13 +10,15 @@ LINKFLAG=-Xlinker
 CC=g++
 
 ALLEXE=test systest pipe_read pipe_write server client fork msg_read msg_write semaphore\
-		 shm mytee
+		 shm mytee file_io mycp
 
 CPPDEFS = -Wall  -g -D_MT  -O2
 
 SRCFILES=test main test2 
 
-SRCFILESSYSCALL=syscall_test
+SRCFILESSYSCALL=syscall_test utils
+
+FILE_IO=file_io utils
 
 all:$(ALLEXE)
 	@echo "$(ALLEXE) built successful!"
@@ -28,6 +30,9 @@ test: $(SRCFILES:=.o)
 
 systest: $(SRCFILESSYSCALL:=.o)
 	g++ $(LINKFLAG) $(LIBPATH) -o ./systest $(SRCFILESSYSCALL:=.o) $(LIBS)
+
+file_io: $(FILE_IO:=.o)
+	g++ $(LINKFLAG) $(LIBPATH) -o ./file_io $(FILE_IO:=.o) $(LIBS)
 
 pipe_read:pipe_read.o
 	g++ $(LINKFLAG) $(LIBPATH) -o ./pipe_read pipe_read.o $(LIBS)
@@ -58,6 +63,10 @@ shm:shm.o
 
 mytee:mytee.o
 	g++ $(LINKFLAG) $(LIBPATH) -o ./mytee mytee.o $(LIBS)
+
+mycp:mycp.o
+	g++ $(LINKFLAG) $(LIBPATH) -o ./mycp mycp.o $(LIBS)
+
 
 .SUFFIXES:.cpp .o
 
